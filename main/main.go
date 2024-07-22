@@ -5,6 +5,7 @@ import (
 	api_handlers "example.com/m/v2/handlers"
 	"example.com/m/v2/routes"
 	"example.com/m/v2/utils"
+	_ "github.com/go-sql-driver/mysql"
 	gorilla_handlers "github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"log"
@@ -50,7 +51,7 @@ func main() {
 	methods := gorilla_handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS"})
 	origins := gorilla_handlers.AllowedOrigins([]string{"*"})
 
-	r.Router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static")))
+	//r.Router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static")))
 
 	if serveErr := http.ListenAndServe(":4040", gorilla_handlers.CORS(headers, methods, origins)(r.Router)); serveErr != nil {
 		utils.Panic(serveErr, "Failed to run a backend")

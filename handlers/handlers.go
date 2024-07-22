@@ -23,17 +23,25 @@ func (h Handler) HomeLink(w http.ResponseWriter, r *http.Request) {
 
 func (h Handler) CreateEntry(w http.ResponseWriter, r *http.Request) {
 	var entry models.Entry
+	err := json.NewDecoder(r.Body).Decode(&entry)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
 	entry.ID = uuid.New().String()
-	requestBody, err := io.ReadAll(r.Body)
-	utils.Panic(err, "Failed to read request body!")
-	unmarshallErr := json.Unmarshal(requestBody, &entry)
-	utils.Panic(unmarshallErr, "Failed to process request body!")
+	//requestBody, err := io.ReadAll(r.Body)
+	//utils.Panic(err, "Failed to read request body!")
+
+	//unmarshallErr := json.Unmarshal(requestBody, &entry)
+	//utils.Panic(unmarshallErr, "Failed to process request body!")
+
 	if _, insertErr := h.Db.Exec("INSERT INTO db_entries(id,entry_val) VALUES (?, ?)", entry.ID, entry.EntryVal); insertErr != nil {
 		utils.Panic(insertErr, "Failed to insert data")
 	}
 	w.WriteHeader(http.StatusCreated)
-	Conv, _ := json.MarshalIndent(entry, "", " ")
-	fmt.Fprintf(w, "%s", string(Conv))
+	json.NewEncoder(w).Encode(entry)
+	//Conv, _ := json.MarshalIndent(entry, "", " ")
+	//fmt.Fprintf(w, "%s", string(Conv))
 
 }
 
