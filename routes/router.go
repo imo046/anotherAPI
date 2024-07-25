@@ -18,6 +18,10 @@ func (r *ApiRouter) Create(route string) {
 	r.Router.HandleFunc(route, r.Handler.CreateEntry).Methods("POST")
 }
 
+func (r *ApiRouter) CreateMultiple(route string) {
+	r.Router.HandleFunc(route, r.Handler.CreateEntries).Methods("POST")
+}
+
 func (r *ApiRouter) Count(route string) {
 	r.Router.HandleFunc(route, r.Handler.CountEntries).Methods("GET")
 }
