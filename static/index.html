@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Entries</title>
+    <script>
+        async function fetchEntries() {
+            const response = await fetch('/getAll');
+            const entries = await response.json();
+            const entriesList = document.getElementById('entries-list');
+            entriesList.innerHTML = '';
+            entries.forEach(entry => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `ID: ${entry.id}, Value: ${entry.entry_val}`;
+                entriesList.appendChild(listItem);
+            });
+        }
+
+        window.onload = fetchEntries
+    </script>
+</head>
+<body>
+<h1>Entry DB</h1>
+<div>
+        <h2></h2>
+</div>
+</body>
+</html>
