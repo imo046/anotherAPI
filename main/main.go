@@ -49,10 +49,10 @@ func main() {
 	r.Update("/update/{id}")
 
 	headers := gorilla_handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
-	methods := gorilla_handlers.AllowedMethods([]string{"GET", "POST", "PATCH", "PUT", "HEAD", "OPTIONS"})
+	methods := gorilla_handlers.AllowedMethods([]string{"GET", "POST", "PATCH", "PUT", "HEAD", "OPTIONS", "DELETE"})
 	origins := gorilla_handlers.AllowedOrigins([]string{"*"})
 
-	r.Router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static")))
+	//r.Router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static")))
 	fmt.Println("Starting server on :4040")
 	log.Fatal(http.ListenAndServe(":4040", gorilla_handlers.CORS(headers, methods, origins)(r.Router)))
 
