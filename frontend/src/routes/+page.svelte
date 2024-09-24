@@ -4,6 +4,14 @@
   import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from 'flowbite-svelte';
 
     let entries = [];
+    let columnNames = ["UuId","app_id","Answer time","Created","Elaborate","Elaborate timestamp end","Elaborate timestamp start","Greeting","Greeting timestamp end","Greeting timestamp start","Language medication",
+    "Language medication timestamp end","Language medication timestamp start","Language1","Language1 timestamp end","Language1 timestamp start","Language2","Language2 timestamp end","Language2 timestamp start",
+    "Name","Name ink", "Name ink timestamp end","Name ink timestamp start","Name timestamp end","Name timestamp start","Picture","Picture timestamp end","Picture timestamp start","Radio1","Radio1 timestamp start",
+    "Radio2","Radio2 timestamp start","Retell","Retell timestamp end","Retell timestamp start","Slider1","Slider1 timestamp start","Slider2","Slider2 timestamp start","Slider3","Slider3 timestamp start",
+    "Submission ID","Suggestion","Suggestion timestamp end","Suggestion timestamp start","TapRate","TapRate timestamp end","TapRate timestamp start","data_version","notification_datetime","session_id","study_id","Annotations"];
+
+    let columnNameSlice = columnNames.slice(1);
+
     let loading = true;
     let selected = new Set();
     let error = null;
@@ -47,15 +55,9 @@
     }
   }
 
-    // Update entry
-    async function handleEdit(id, entryValue) {
-      try {
-        await updateEntry(id, entryValue);
-        alert('Entry updated successfully');
-      } catch (err) {
-        console.error('Failed to update entry:', err);
-      }
-    }
+  function handleValue(entry, columnName): any {
+    return entry[columnName];
+  }
 
 
 </script>
@@ -75,14 +77,6 @@
     <input type="checkbox" bind:checked={columns.id} />
     ID
   </label>
-  <label>
-    <input type="checkbox" bind:checked={columns.data} />
-    Data
-  </label>
-  <label>
-    <input type="checkbox" bind:checked={columns.actions} />
-    Actions
-  </label>
 </div>
 <Table hoverable={true}>
   <TableHead>
@@ -90,36 +84,32 @@
     {#if columns.id}
     <TableHeadCell>ID</TableHeadCell>
     {/if}
-    <TableHeadCell>Data</TableHeadCell>
-    <TableHeadCell>Actions</TableHeadCell>
-    <TableHeadCell>
-      <span class="sr-only">Edit</span>
-    </TableHeadCell>
+    {#each columnNameSlice as columnName}
+    <TableHeadCell>{columnName}</TableHeadCell>
+    {/each}
   </TableHead>
   <TableBody tableBodyClass="divide-y">
-      {#each entries as entry (entry.id)}
+      {#each entries as entry}
         <TableBodyRow>
               <TableBodyCell>
                           <input
                             type="checkbox"
-                            checked={selected.has(entry.id)}
-                            on:change={() => toggleSelect(entry.id)}
+                            checked={selected.has(entry.UuId)}
+                            on:change={() => toggleSelect(entry.UuId)}
                           />
               </TableBodyCell>
               {#if columns.id}
                 <TableBodyCell>
-                {entry.id}
+                {entry.UuId}
                 </TableBodyCell>
               {/if}
+              {#each columnNameSlice as columnName}
               <TableBodyCell>
-                          <input
-                            type="text"
-                            bind:value={entry.entry_val}
-                            on:blur={() => handleEdit(entry.id, entry.entry_val)}
-                          />
+              {handleValue(entry, columnName)}
               </TableBodyCell>
+              {/each}
               <TableBodyCell>
-              <button on:click={() => handleDelete(entry.id)}>Delete</button>
+              <button on:click={() => handleDelete(entry.app_id)}>Delete</button>
               </TableBodyCell>
               <TableBodyCell>
                 <a href="/tables" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Edit</a>

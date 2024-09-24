@@ -26,20 +26,26 @@ export const fetchEntries = async () => {
 }
 
 
-export async function createEntry(entry: Omit<Entry, 'id'>) {
-    const response =     await fetch(`${apiBase}/create`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(entry),
-    });
-    if (!response.ok) {
-        throw new Error('Failed to add entry');
-    }
-    console.log(response)
+export async function uploadEntries(file: File) {
+    const formData = new FormData();
+    formData.append("file", file);
 
-    return await response.json();
+    try {
+        const response = await fetch(`${apiBase}/upload`, {
+            method: "POST",
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to upload CSV.");
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error uploading CSV:", error);
+        throw error; // Re-throw the error to handle it in the Svelte component
+    }
 
 }
 

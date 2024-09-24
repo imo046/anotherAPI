@@ -7,7 +7,7 @@
   <a href="/">List Entries</a>
 </nav>
 <nav>
-  <a href="/create">Create</a>
+  <a href="/upload">Upload</a>
 </nav>
 <nav>
   <a href="/delete">Delete</a>

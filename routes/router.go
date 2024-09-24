@@ -14,16 +14,21 @@ func (r *ApiRouter) Home(route string) {
 	r.Router.HandleFunc(route, r.Handler.HomeLink)
 }
 
-func (r *ApiRouter) Create(route string) {
-	r.Router.HandleFunc(route, r.Handler.CreateEntry).Methods("POST")
-}
-
-func (r *ApiRouter) CreateMultiple(route string) {
-	r.Router.HandleFunc(route, r.Handler.CreateEntries).Methods("POST")
-}
+//func (r *ApiRouter) Create(route string) {
+//	r.Router.HandleFunc(route, r.Handler.CreateEntry).Methods("POST")
+//}
+//
+//func (r *ApiRouter) CreateMultiple(route string) {
+//	r.Router.HandleFunc(route, r.Handler.CreateEntries).Methods("POST")
+//}
 
 func (r *ApiRouter) Count(route string) {
 	r.Router.HandleFunc(route, r.Handler.CountEntries).Methods("GET")
+}
+
+// UPLOAD
+func (r *ApiRouter) Upload(route string) {
+	r.Router.HandleFunc(route, r.Handler.Upload).Methods("POST")
 }
 
 func (r *ApiRouter) GetOne(route string) {
